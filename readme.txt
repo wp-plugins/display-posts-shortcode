@@ -42,6 +42,10 @@ This will list every post in the Must Read category, in alphabetical order, with
 
 == Changelog ==
 
+**Version 0.1.1**
+
+* Fix spacing issue in plugin
+
 **Version 0.1**
 
 * This is version 0.1.  Everything's new!
