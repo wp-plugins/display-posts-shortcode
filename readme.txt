@@ -12,19 +12,19 @@ Display a listing of posts using the [display-posts] shortcode
 
 The *Display Posts Shortcode* was written to allow users to easily display listings of posts without knowing PHP or editing template files.
 
-Add the shortcode in a post or page, and use the arguments to query based on tag and/or category, limit the number of posts displayed, and sort the results. I’ve also added an extra condition, include_date, which will place the date at the end of the post.
+Add the shortcode in a post or page, and use the arguments to query based on tag and/or category, limit the number of posts displayed, and sort the results. I've also added an extra condition, include_date, which will place the date at the end of the post.
 
 See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) for information on using the arguments.
 
-=Examples=
+= Examples =
 
 [listing tag="advanced" posts_per_page="20"]
-This will list the 20 most recent posts with the tag “Advanced”.
+This will list the 20 most recent posts with the tag *Advanced*.
 
 [listing category="must-read" posts_per_page="-1" include_date="true" order="ASC" orderby="title"]
 This will list every post in the Must Read category, in alphabetical order, with the date appended to the end.
 
-=Arguments=
+= Arguments =
 * tag
 * category
 * posts_per_page
