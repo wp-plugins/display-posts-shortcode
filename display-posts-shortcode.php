@@ -25,37 +25,37 @@
 // Create the shortcode
 add_shortcode('display-posts', 'be_display_posts_shortcode');
 function be_display_posts_shortcode($atts) {
-    extract(shortcode_atts(array(
-        'tag' => '',
-        'category' => '',
-        'posts_per_page' => '10',
-        'include_date' => '',
-        'order' => 'DESC',
-        'orderby' => 'date',
-    ), $atts));
- 
-    $args = array(
-        'tag' => $tag,
-        'category_name' => $category,
-        'posts_per_page' => $posts_per_page,
-        'order' => $order,
-        'orderby' => $orderby,
-    );
- 
-    $return = '';
-    $listing = new WP_Query($args);
-    if ($listing->have_posts()):
-        $return .= '<ul>';
- 
-        while ($listing->have_posts()): $listing->the_post(); global $post;
-            $return .= '<li><a href="'.get_permalink().'">'.get_the_title().'</a>';
-            if ($include_date) $return .= ' ('.get_the_date('n/j/Y').')';
-            $return .= '</li>';
-        endwhile;
- 
-        $return .= '</ul>';
-    endif; wp_reset_query();
- 
-    if (!empty($return)) return $return;
+
+	extract( shortcode_atts( array(
+		'tag' => '',
+		'category' => '',
+		'posts_per_page' => '10',
+		'include_date' => '',
+		'order' => 'DESC',
+		'orderby' => 'date'
+	), $atts ) );
+	
+	$args = array(
+		'tag' => $tag,
+		'category_name' => $category,
+		'posts_per_page' => $posts_per_page,
+		'order' => $order,
+		'orderby' => $orderby
+	);
+	
+	$return = '';
+	$listing = new WP_Query($args);
+	if ( $listing->have_posts() ):
+		$return .= '<ul>';
+		while ( $listing->have_posts() ): $listing->the_post(); global $post;
+			$return .= '<li><a href="'. get_permalink() .'">'. get_the_title() .'</a>';
+			if ($include_date) $return .= ' ('. get_the_date('n/j/Y') .')';
+			$return .= '</li>';
+		endwhile;
+		
+		$return .= '</ul>';
+	endif; wp_reset_query();
+	
+	if (!empty($return)) return $return;
 }
 ?>
