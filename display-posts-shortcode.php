@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 0.1.1
+ * Version: 0.1.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 0.1.1
+ * @version 0.1.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -32,7 +32,8 @@ function be_display_posts_shortcode($atts) {
 		'posts_per_page' => '10',
 		'include_date' => '',
 		'order' => 'DESC',
-		'orderby' => 'date'
+		'orderby' => 'date',
+		'image_size' => ''
 	), $atts ) );
 	
 	$args = array(
@@ -48,7 +49,9 @@ function be_display_posts_shortcode($atts) {
 	if ( $listing->have_posts() ):
 		$return .= '<ul>';
 		while ( $listing->have_posts() ): $listing->the_post(); global $post;
-			$return .= '<li><a href="'. get_permalink() .'">'. get_the_title() .'</a>';
+			$return .= '<li>';
+			if ($image_size) $return .= '<a href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
+			$return .= '<a href="'. get_permalink() .'">'. get_the_title() .'</a>';
 			if ($include_date) $return .= ' ('. get_the_date('n/j/Y') .')';
 			$return .= '</li>';
 		endwhile;
