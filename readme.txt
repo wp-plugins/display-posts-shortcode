@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -20,13 +20,13 @@ The image_size can be set to thumbnail, medium, large (all controlled from Setti
 
 = Examples =
 
-[listing tag="advanced" posts_per_page="20"]
+[display-posts tag="advanced" posts_per_page="20"]
 This will list the 20 most recent posts with the tag *Advanced*.
 
-[listing tag="advanced" image_size="thumbnail"]
+[display-posts tag="advanced" image_size="thumbnail"]
 This will list the 10 most recent posts tagged *Advanced* and display a post image using the *Thumbnail* size. 
 
-[listing category="must-read" posts_per_page="-1" include_date="true" order="ASC" orderby="title"]
+[display-posts category="must-read" posts_per_page="-1" include_date="true" order="ASC" orderby="title"]
 This will list every post in the Must Read category, in alphabetical order, with the date appended to the end.
 
 = Arguments =
@@ -48,6 +48,10 @@ This will list every post in the Must Read category, in alphabetical order, with
 
 
 == Changelog ==
+
+**Version 0.1.3**
+
+* Updated Readme * 
 
 **Version 0.1.2**
 
