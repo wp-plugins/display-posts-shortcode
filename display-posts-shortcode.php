@@ -27,21 +27,24 @@ add_shortcode('display-posts', 'be_display_posts_shortcode');
 function be_display_posts_shortcode($atts) {
 
 	extract( shortcode_atts( array(
+		'post_type' => 'post',
 		'tag' => '',
 		'category' => '',
 		'posts_per_page' => '10',
-		'include_date' => '',
 		'order' => 'DESC',
 		'orderby' => 'date',
-		'image_size' => ''
+		'include_date' => false,
+		'include_excerpt' => false,
+		'image_size' => false,
 	), $atts ) );
 	
 	$args = array(
+		'post_type' => $post_type,
 		'tag' => $tag,
 		'category_name' => $category,
 		'posts_per_page' => $posts_per_page,
 		'order' => $order,
-		'orderby' => $orderby
+		'orderby' => $orderby,
 	);
 	
 	$return = '';
@@ -53,6 +56,7 @@ function be_display_posts_shortcode($atts) {
 			if ($image_size) $return .= '<a href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
 			$return .= '<a href="'. get_permalink() .'">'. get_the_title() .'</a>';
 			if ($include_date) $return .= ' ('. get_the_date('n/j/Y') .')';
+			if ($include_excerpt) $return .= ' - ' . get_the_excerpt();
 			$return .= '</li>';
 		endwhile;
 		
