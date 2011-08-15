@@ -53,11 +53,11 @@ This will list every post in the Must Read category, in alphabetical order, with
 
 **Version 0.1.4**
 
-* Added post_type and include_excerpt *
+* Added post_type and include_excerpt
 
 **Version 0.1.3**
 
-* Updated Readme * 
+* Updated Readme
 
 **Version 0.1.2**
 
