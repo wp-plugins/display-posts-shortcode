@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -31,6 +31,7 @@ This will list every post in the Must Read category, in alphabetical order, with
 
 = Arguments =
 
+* post_type
 * tag
 * category
 * posts_per_page
@@ -38,6 +39,7 @@ This will list every post in the Must Read category, in alphabetical order, with
 * orderby
 * include_date
 * image_size
+* include_excerpt
 
 
 == Installation ==
@@ -48,6 +50,10 @@ This will list every post in the Must Read category, in alphabetical order, with
 
 
 == Changelog ==
+
+**Version 0.1.4**
+
+* Added post_type and include_excerpt *
 
 **Version 0.1.3**
 
