@@ -50,7 +50,7 @@ function be_display_posts_shortcode($atts) {
 	$return = '';
 	$listing = new WP_Query($args);
 	if ( $listing->have_posts() ):
-		$return .= '<ul>';
+		$return .= '<ul class="display-posts-listing">';
 		while ( $listing->have_posts() ): $listing->the_post(); global $post;
 			$return .= '<li>';
 			if ($image_size) $return .= '<a href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';

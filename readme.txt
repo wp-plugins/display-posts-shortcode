@@ -54,6 +54,7 @@ This will list every post in the Must Read category, in alphabetical order, with
 **Version 0.1.4**
 
 * Added post_type and include_excerpt
+* Added a class of "display-posts-listing" to the unordered list
 
 **Version 0.1.3**
 
