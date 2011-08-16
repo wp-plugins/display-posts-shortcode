@@ -53,10 +53,10 @@ function be_display_posts_shortcode($atts) {
 		$return .= '<ul class="display-posts-listing">';
 		while ( $listing->have_posts() ): $listing->the_post(); global $post;
 			$return .= '<li>';
-			if ($image_size) $return .= '<a href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
-			$return .= '<a href="'. get_permalink() .'">'. get_the_title() .'</a>';
-			if ($include_date) $return .= ' ('. get_the_date('n/j/Y') .')';
-			if ($include_excerpt) $return .= ' - ' . get_the_excerpt();
+			if ($image_size) $return .= '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
+			$return .= '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
+			if ($include_date) $return .= ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
+			if ($include_excerpt) $return .= ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
 			$return .= '</li>';
 		endwhile;
 		
