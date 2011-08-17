@@ -36,6 +36,8 @@ function be_display_posts_shortcode($atts) {
 		'include_date' => false,
 		'include_excerpt' => false,
 		'image_size' => false,
+		'taxonomy' => false,
+		'tax_term' => false
 	), $atts ) );
 	
 	$args = array(
@@ -46,6 +48,19 @@ function be_display_posts_shortcode($atts) {
 		'order' => $order,
 		'orderby' => $orderby,
 	);
+	
+	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
+		$tax_args = array(
+			'tax_query' => array(
+				array(
+					'taxonomy' => $taxonomy,
+					'field' => 'slug',
+					'terms' => $tax_term
+				)
+			)
+		);
+		$args = array_merge( $args, $tax_args );
+	}
 	
 	$return = '';
 	$listing = new WP_Query($args);
