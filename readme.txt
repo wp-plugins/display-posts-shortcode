@@ -1,6 +1,6 @@
 === Display Posts Shortcode ===
 Contributors: billerickson
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AEDKVR5B4TDWN
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQKRBRFVRUV8C
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.2.1
