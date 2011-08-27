@@ -46,6 +46,10 @@ This will display the title and excerpt of the 10 most recent posts marked "blue
 * taxonomy
 * tax_term
 
+= Further Customizaion =
+
+I've added a filter, `display_posts_shortcode_output`, to let you modify the output of each post. [Here's an example](http://www.billerickson.net/shortcode-to-display-posts/).
+
 == Installation ==
 
 1. Upload `display-posts-shortcode` to the `/wp-content/plugins/` directory.
