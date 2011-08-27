@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 0.1.4
+ * Version: 0.1.5
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 0.1.4
+ * @version 0.1.5
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -67,12 +67,22 @@ function be_display_posts_shortcode($atts) {
 	if ( $listing->have_posts() ):
 		$return .= '<ul class="display-posts-listing">';
 		while ( $listing->have_posts() ): $listing->the_post(); global $post;
-			$return .= '<li>';
-			if ($image_size) $return .= '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
-			$return .= '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
-			if ($include_date) $return .= ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
-			if ($include_excerpt) $return .= ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
-			$return .= '</li>';
+			
+			if ($image_size)  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
+			else $image = '';
+				
+			$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
+			
+			if ($include_date) $date = ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
+			else $date = '';
+			
+			if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
+			else $excerpt = '';
+			
+			$output = '<li>' . $image . $title . $date . $excerpt . '</li>';
+			
+			$return .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt );
+			
 		endwhile;
 		
 		$return .= '</ul>';

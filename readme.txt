@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 0.1.4
+Stable tag: 0.1.5
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -54,6 +54,9 @@ This will display the title and excerpt of the 10 most recent posts marked "blue
 
 
 == Changelog ==
+
+**Version 0.1.5**
+* Added a filter (display_posts_shortcode_output) so you can modify the output of individual posts however you like.
 
 **Version 0.1.4**
 
