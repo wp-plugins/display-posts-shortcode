@@ -68,7 +68,7 @@ function be_display_posts_shortcode($atts) {
 		$return .= '<ul class="display-posts-listing">';
 		while ( $listing->have_posts() ): $listing->the_post(); global $post;
 			
-			if ($image_size)  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
+			if ( $image_size && has_post_thumbnail() )  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
 			else $image = '';
 				
 			$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
