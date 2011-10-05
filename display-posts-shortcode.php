@@ -28,6 +28,7 @@ function be_display_posts_shortcode($atts) {
 
 	extract( shortcode_atts( array(
 		'post_type' => 'post',
+		'post_parent' => false,
 		'tag' => '',
 		'category' => '',
 		'posts_per_page' => '10',
@@ -37,7 +38,7 @@ function be_display_posts_shortcode($atts) {
 		'include_excerpt' => false,
 		'image_size' => false,
 		'taxonomy' => false,
-		'tax_term' => false
+		'tax_term' => false,
 	), $atts ) );
 	
 	$args = array(
@@ -60,6 +61,14 @@ function be_display_posts_shortcode($atts) {
 			)
 		);
 		$args = array_merge( $args, $tax_args );
+	}
+	
+	if( $post_parent ) {
+		if( 'current' == $post_parent ) {
+			global $post;
+			$post_parent = $post->ID;
+		}
+		$args['post_parent'] = $post_parent;
 	}
 	
 	$return = '';
