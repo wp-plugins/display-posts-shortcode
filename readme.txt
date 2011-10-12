@@ -32,6 +32,9 @@ This will list every post in the Must Read category, in alphabetical order, with
 [display-posts taxonomy="color" tax_term="blue" include_excerpt="true"]
 This will display the title and excerpt of the 10 most recent posts marked "blue" in the custom taxonomy "color".
 
+[display-posts wrapper="ol"]
+This will display posts as an ordered list. Options are ul for unordered lists (default), ol for ordered lists, or div for divs.
+
 = Arguments =
 
 * tag
@@ -46,10 +49,19 @@ This will display the title and excerpt of the 10 most recent posts marked "blue
 * post_parent
 * taxonomy
 * tax_term
+* wrapper
 
 = Further Customizaion =
 
-I've added a filter, `display_posts_shortcode_output`, to let you modify the output of each post. [Here's an example](http://www.billerickson.net/shortcode-to-display-posts/).
+`display_posts_shortcode_output`
+For customizing the output of individual posts.
+Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
+
+`display_posts_shortcode_wrapper_open` 
+`display_posts_shortcode_wrapper_close`
+For customizing the outer markup of the whole listing. By default it is a <ul> but
+can be changed to <ol> or <div> using the 'wrapper' attribute, or by using this filter.
+Example: https://gist.github.com/1270278
 
 == Installation ==
 
@@ -62,6 +74,7 @@ I've added a filter, `display_posts_shortcode_output`, to let you modify the out
 
 **Version 1.6**
 * Added `post_parent` where you can specify a parent by ID, or you can say `post_parent=current` and it will use the current page's ID.
+* Added `wrapper` where you can decide if the posts are an unordered list, ordered list, or div's
 
 **Version 1.5**
 * For the sake of clarity I'm changing version numbers. No feature changes

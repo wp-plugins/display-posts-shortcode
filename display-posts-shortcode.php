@@ -22,10 +22,26 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
  
+ 
+/**
+ * To Customize, use the following filters:
+ *
+ * `display_posts_shortcode_output`
+ * For customizing the output of individual posts.
+ * Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
+ *
+ * `display_posts_shortcode_wrapper_open` 
+ * display_posts_shortcode_wrapper_close`
+ * For customizing the outer markup of the whole listing. By default it is a <ul> but
+ * can be changed to <ol> or <div> using the 'wrapper' attribute, or by using this filter.
+ * Example: https://gist.github.com/1270278
+ */ 
+ 
 // Create the shortcode
 add_shortcode('display-posts', 'be_display_posts_shortcode');
 function be_display_posts_shortcode($atts) {
 
+	// Pull in shortcode attributes and set defaults
 	extract( shortcode_atts( array(
 		'post_type' => 'post',
 		'post_parent' => false,
@@ -37,10 +53,12 @@ function be_display_posts_shortcode($atts) {
 		'include_date' => false,
 		'include_excerpt' => false,
 		'image_size' => false,
+		'wrapper' => 'ul',
 		'taxonomy' => false,
 		'tax_term' => false,
 	), $atts ) );
 	
+	// Set up initial query for post
 	$args = array(
 		'post_type' => $post_type,
 		'tag' => $tag,
@@ -50,6 +68,7 @@ function be_display_posts_shortcode($atts) {
 		'orderby' => $orderby,
 	);
 	
+	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
 		$tax_args = array(
 			'tax_query' => array(
@@ -63,6 +82,7 @@ function be_display_posts_shortcode($atts) {
 		$args = array_merge( $args, $tax_args );
 	}
 	
+	// If post parent attribute, set up parent
 	if( $post_parent ) {
 		if( 'current' == $post_parent ) {
 			global $post;
@@ -71,32 +91,45 @@ function be_display_posts_shortcode($atts) {
 		$args['post_parent'] = $post_parent;
 	}
 	
-	$return = '';
-	$listing = new WP_Query($args);
-	if ( $listing->have_posts() ):
-		$return .= '<ul class="display-posts-listing">';
-		while ( $listing->have_posts() ): $listing->the_post(); global $post;
-			
-			if ( $image_size && has_post_thumbnail() )  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
-			else $image = '';
-				
-			$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
-			
-			if ($include_date) $date = ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
-			else $date = '';
-			
-			if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
-			else $excerpt = '';
-			
-			$output = '<li>' . $image . $title . $date . $excerpt . '</li>';
-			
-			$return .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt );
-			
-		endwhile;
-		
-		$return .= '</ul>';
-	endif; wp_reset_query();
+	// Set up html elements used to wrap the posts. 
+	// Default is ul/li, but can also be ol/li and div/div
+	$wrapper_options = array( 'ul', 'ol', 'div' );
+	if( !in_array( $wrapper, $wrapper_options ) )
+		$wrapper = 'ul';
+	if( 'div' == $wrapper )
+		$inner_wrapper = 'div';
+	else
+		$inner_wrapper = 'li';
+
 	
-	if (!empty($return)) return $return;
+	$listing = new WP_Query($args);
+	if ( !$listing->have_posts() )
+		return;
+		
+	$inner = '';
+	while ( $listing->have_posts() ): $listing->the_post(); global $post;
+		
+		if ( $image_size && has_post_thumbnail() )  $image = '<a class="image" href="'. get_permalink() .'">'. get_the_post_thumbnail($post->ID, $image_size).'</a> ';
+		else $image = '';
+			
+		$title = '<a class="title" href="'. get_permalink() .'">'. get_the_title() .'</a>';
+		
+		if ($include_date) $date = ' <span class="date">('. get_the_date('n/j/Y') .')</span>';
+		else $date = '';
+		
+		if ($include_excerpt) $excerpt = ' - <span class="excerpt">' . get_the_excerpt() . '</span>';
+		else $excerpt = '';
+		
+		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
+		
+	endwhile; wp_reset_query();
+	
+	$open = apply_filters( 'display_posts_shortcode_wrapper_open', '<' . $wrapper . ' class="display-posts-listing">' );
+	$close = apply_filters( 'display_posts_shortcode_wrapper_close', '</' . $wrapper . '>' );
+	$return = $open . $inner . $close;
+
+	return $return;
 }
 ?>
