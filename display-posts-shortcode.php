@@ -56,6 +56,7 @@ function be_display_posts_shortcode($atts) {
 		'wrapper' => 'ul',
 		'taxonomy' => false,
 		'tax_term' => false,
+		'tax_operator' => 'IN'
 	), $atts ) );
 	
 	// Set up initial query for post
@@ -70,12 +71,21 @@ function be_display_posts_shortcode($atts) {
 	
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
+	
+		// Term string to array
+		$tax_term = explode( ', ', $tax_term );
+		
+		// Validate operator
+		if( !in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) )
+			$tax_operator = 'IN';
+					
 		$tax_args = array(
 			'tax_query' => array(
 				array(
 					'taxonomy' => $taxonomy,
 					'field' => 'slug',
-					'terms' => $tax_term
+					'terms' => $tax_term,
+					'operator' => $tax_operator
 				)
 			)
 		);

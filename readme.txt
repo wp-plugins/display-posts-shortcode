@@ -49,6 +49,7 @@ This will display posts as an ordered list. Options are ul for unordered lists (
 * post_parent
 * taxonomy
 * tax_term
+* tax_operator
 * wrapper
 
 = Further Customizaion =
@@ -75,6 +76,7 @@ Example: https://gist.github.com/1270278
 **Version 1.6**
 * Added `post_parent` where you can specify a parent by ID, or you can say `post_parent=current` and it will use the current page's ID.
 * Added `wrapper` where you can decide if the posts are an unordered list, ordered list, or div's
+* Added support for multiple taxonomy terms (comma separated) and taxonomy operator (IN, NOT IN, or AND).
 
 **Version 1.5**
 * For the sake of clarity I'm changing version numbers. No feature changes
