@@ -45,6 +45,7 @@ function be_display_posts_shortcode($atts) {
 	extract( shortcode_atts( array(
 		'post_type' => 'post',
 		'post_parent' => false,
+		'p' => false,
 		'tag' => '',
 		'category' => '',
 		'posts_per_page' => '10',
@@ -68,6 +69,13 @@ function be_display_posts_shortcode($atts) {
 		'order' => $order,
 		'orderby' => $orderby,
 	);
+	
+	// If Post IDs
+	if( $p ) {
+		$posts_in = explode( ',', $p );
+		$args['post__in'] = $posts_in;
+	}
+	
 	
 	// If taxonomy attributes, create a taxonomy query
 	if ( !empty( $taxonomy ) && !empty( $tax_term ) ) {
@@ -112,7 +120,7 @@ function be_display_posts_shortcode($atts) {
 		$inner_wrapper = 'li';
 
 	
-	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args ) );
+	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
 	if ( !$listing->have_posts() )
 		return;
 		
