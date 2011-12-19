@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.6
+Stable tag: 1.7
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -35,11 +35,15 @@ This will display the title and excerpt of the 10 most recent posts marked "blue
 [display-posts wrapper="ol"]
 This will display posts as an ordered list. Options are ul for unordered lists (default), ol for ordered lists, or div for divs.
 
+[display-posts id="14,3"]
+This will display only the posts with an ID of 14 and 3.
+
 = Arguments =
 
 * tag
 * category
 * posts_per_page
+* id
 * order
 * orderby
 * include_date
@@ -54,15 +58,19 @@ This will display posts as an ordered list. Options are ul for unordered lists (
 
 = Further Customizaion =
 
+`display_posts_shortcode_args`
+For customizing the $args passed to WP_Query. Useful if a query arg you want isn't already in the shortcode.
+Example: http://www.billerickson.net/code/display-posts-shortcode-exclude-posts/
+
 `display_posts_shortcode_output`
 For customizing the output of individual posts.
-Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
+Example: http://www.billerickson.net/code/display-posts-shortcode-full-content/
 
 `display_posts_shortcode_wrapper_open` 
 `display_posts_shortcode_wrapper_close`
 For customizing the outer markup of the whole listing. By default it is a `ul` but
 can be changed to `ol` or `div` using the 'wrapper' attribute, or by using this filter.
-Example: https://gist.github.com/1270278
+Example: http://www.billerickson.net/code/display-posts-shortcode-outer-markup/
 
 == Installation ==
 
@@ -73,7 +81,13 @@ Example: https://gist.github.com/1270278
 
 == Changelog ==
 
+**Version 1.7**
+
+* Added `id` argument to specify specific post IDs
+* Added `display_posts_shortcode_args` filter in case the arguments you want aren't already included in the shortcode. See example: http://www.billerickson.net/code/display-posts-shortcode-exclude-posts/
+
 **Version 1.6**
+
 * Added `post_parent` where you can specify a parent by ID, or you can say `post_parent=current` and it will use the current page's ID.
 * Added `wrapper` where you can decide if the posts are an unordered list, ordered list, or div's
 * Added support for multiple taxonomy terms (comma separated) and taxonomy operator (IN, NOT IN, or AND).

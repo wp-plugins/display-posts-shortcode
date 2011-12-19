@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 1.6
+ * Version: 1.7
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -26,6 +26,9 @@
 /**
  * To Customize, use the following filters:
  *
+ * `display_posts_shortcode_args`
+ * For customizing the $args passed to WP_Query
+ *
  * `display_posts_shortcode_output`
  * For customizing the output of individual posts.
  * Example: https://gist.github.com/1175575#file_display_posts_shortcode_output.php
@@ -45,7 +48,7 @@ function be_display_posts_shortcode($atts) {
 	extract( shortcode_atts( array(
 		'post_type' => 'post',
 		'post_parent' => false,
-		'p' => false,
+		'id' => false,
 		'tag' => '',
 		'category' => '',
 		'posts_per_page' => '10',
@@ -71,8 +74,8 @@ function be_display_posts_shortcode($atts) {
 	);
 	
 	// If Post IDs
-	if( $p ) {
-		$posts_in = explode( ',', $p );
+	if( $id ) {
+		$posts_in = explode( ',', $id );
 		$args['post__in'] = $posts_in;
 	}
 	
