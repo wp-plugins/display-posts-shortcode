@@ -112,7 +112,7 @@ function be_display_posts_shortcode($atts) {
 		$inner_wrapper = 'li';
 
 	
-	$listing = new WP_Query($args);
+	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args ) );
 	if ( !$listing->have_posts() )
 		return;
 		
