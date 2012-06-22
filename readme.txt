@@ -81,6 +81,10 @@ Example: http://www.billerickson.net/code/display-posts-shortcode-outer-markup/
 
 == Changelog ==
 
+**Version 1.8**
+
+* Added `display_posts_shortcode_no_results` filter for displaying content if there's no posts matching current query.
+
 **Version 1.7**
 
 * Added `id` argument to specify specific post IDs
