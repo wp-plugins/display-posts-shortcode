@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 1.7
+ * @version 1.8
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -65,7 +65,7 @@ function be_display_posts_shortcode($atts) {
 	
 	// Set up initial query for post
 	$args = array(
-		'post_type' => $post_type,
+		'post_type' => explode( ',', $post_type ),
 		'tag' => $tag,
 		'category_name' => $category,
 		'posts_per_page' => $posts_per_page,
@@ -153,4 +153,3 @@ function be_display_posts_shortcode($atts) {
 
 	return $return;
 }
-?>
