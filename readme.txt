@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: shortcode, pages, posts, page, query, display, list
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 2.1
+Stable tag: 2.2
 
 Display a listing of posts using the [display-posts] shortcode
 
@@ -27,11 +27,18 @@ See the [WordPress Codex](http://codex.wordpress.org/Class_Reference/WP_Query) f
 
 == Changelog ==
 
-**Veresion 2.1**
+**Version 2.2**
+
+* Use original attributes for filters
+* Add support for multiple taxonomy queries
+* Add filter for post classes
+* Add support for post content in the post loop
+
+**Version 2.1**
 
 * Add support for post status
 * Add support for post author
-* Add support for post author
+* Add support for post offset
 
 **Version 2.0**
 

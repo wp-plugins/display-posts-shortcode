@@ -3,7 +3,7 @@
  * Plugin Name: Display Posts Shortcode
  * Plugin URI: http://www.billerickson.net/shortcode-to-display-posts/
  * Description: Display a listing of posts using the [display-posts] shortcode
- * Version: 2.1
+ * Version: 2.2
  * Author: Bill Erickson
  * Author URI: http://www.billerickson.net
  *
@@ -15,7 +15,7 @@
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package Display Posts
- * @version 2.1
+ * @version 2.2
  * @author Bill Erickson <bill@billerickson.net>
  * @copyright Copyright (c) 2011, Bill Erickson
  * @link http://www.billerickson.net/shortcode-to-display-posts/
@@ -44,6 +44,9 @@
 add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
 function be_display_posts_shortcode( $atts ) {
 
+	// Original Attributes, for filters
+	$original_atts = $atts;
+
 	// Pull in shortcode attributes and set defaults
 	$atts = shortcode_atts( array(
 		'author'          => '',
@@ -51,6 +54,7 @@ function be_display_posts_shortcode( $atts ) {
 		'date_format'     => '(n/j/Y)',
 		'id'              => false,
 		'image_size'      => false,
+		'include_content' => false,
 		'include_date'    => false,
 		'include_excerpt' => false,
 		'offset'          => 0,
@@ -72,6 +76,7 @@ function be_display_posts_shortcode( $atts ) {
 	$date_format = sanitize_text_field( $atts['date_format'] );
 	$id = $atts['id']; // Sanitized later as an array of integers
 	$image_size = sanitize_key( $atts['image_size'] );
+	$include_content = (bool)$atts['include_content'];
 	$include_date = (bool)$atts['include_date'];
 	$include_excerpt = (bool)$atts['include_excerpt'];
 	$offset = intval( $atts['offset'] );
@@ -143,6 +148,40 @@ function be_display_posts_shortcode( $atts ) {
 				)
 			)
 		);
+		
+		// Check for multiple taxonomy queries
+		$count = 2;
+		$more_tax_queries = false;
+		while( 
+			isset( $original_atts['taxonomy_' . $count] ) && !empty( $original_atts['taxonomy_' . $count] ) && 
+			isset( $original_atts['tax_' . $count . '_term'] ) && !empty( $original_atts['tax_' . $count . '_term'] ) 
+		):
+		
+			// Sanitize values
+			$more_tax_queries = true;
+			$taxonomy = sanitize_key( $original_atts['taxonomy_' . $count] );
+	 		$terms = explode( ', ', sanitize_text_field( $original_atts['tax_' . $count . '_term'] ) );
+	 		$tax_operator = isset( $original_atts['tax_' . $count . '_operator'] ) ? $original_atts['tax_' . $count . '_operator'] : 'IN';
+	 		$tax_operator = in_array( $tax_operator, array( 'IN', 'NOT IN', 'AND' ) ) ? $tax_operator : 'IN';
+	 		
+	 		$tax_args['tax_query'][] = array(
+	 			'taxonomy' => $taxonomy,
+	 			'field' => 'slug',
+	 			'terms' => $terms,
+	 			'operator' => $tax_operator
+	 		);
+	
+			$count++;
+			
+		endwhile;
+		
+		if( $more_tax_queries ):
+			$tax_relation = 'AND';
+			if( isset( $original_atts['tax_relation'] ) && in_array( $original_atts['tax_relation'], array( 'AND', 'OR' ) ) )
+				$tax_relation = $original_atts['tax_relation'];
+			$args['tax_query']['relation'] = $tax_relation;
+		endif;
+		
 		$args = array_merge( $args, $tax_args );
 	}
 	
@@ -163,14 +202,14 @@ function be_display_posts_shortcode( $atts ) {
 	$inner_wrapper = 'div' == $wrapper ? 'div' : 'li';
 
 	
-	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $atts ) );
+	$listing = new WP_Query( apply_filters( 'display_posts_shortcode_args', $args, $original_atts ) );
 	if ( ! $listing->have_posts() )
 		return apply_filters( 'display_posts_shortcode_no_results', false );
 		
 	$inner = '';
 	while ( $listing->have_posts() ): $listing->the_post(); global $post;
 		
-		$image = $date = $excerpt = '';
+		$image = $date = $excerpt = $content = '';
 		
 		$title = '<a class="title" href="' . get_permalink() . '">' . get_the_title() . '</a>';
 		
@@ -182,10 +221,15 @@ function be_display_posts_shortcode( $atts ) {
 		
 		if ( $include_excerpt ) 
 			$excerpt = ' <span class="excerpt-dash">-</span> <span class="excerpt">' . get_the_excerpt() . '</span>';
+			
+		if( $include_content )
+			$content = '<div class="content">' . apply_filters( 'the_content', get_the_content() ) . '</div>'; 
 		
-		$output = '<' . $inner_wrapper . ' class="listing-item">' . $image . $title . $date . $excerpt . '</' . $inner_wrapper . '>';
+		$class = array( 'listing-item' );
+		$class = apply_filters( 'display_posts_shortcode_post_class', $class, $post, $listing );
+		$output = '<' . $inner_wrapper . ' class="' . implode( ' ', $class ) . '">' . $image . $title . $date . $excerpt . $content . '</' . $inner_wrapper . '>';
 		
-		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $atts, $image, $title, $date, $excerpt, $inner_wrapper );
+		$inner .= apply_filters( 'display_posts_shortcode_output', $output, $original_atts, $image, $title, $date, $excerpt, $inner_wrapper, $content );
 		
 	endwhile; wp_reset_postdata();
 	
